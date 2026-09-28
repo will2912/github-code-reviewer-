@@ -1,0 +1,20 @@
+
+services:
+  backend:
+    build: .
+    container_name: code-reviewer
+    ports:
+      - "3009:3009"
+    env_file:
+      - .env
+    environment:
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    container_name: code-reviewer-redis
+    restart: unless-stopped
+  
