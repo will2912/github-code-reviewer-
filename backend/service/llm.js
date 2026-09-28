@@ -10,18 +10,22 @@ const openrouter = new OpenRouter({
 const MODEL = "nvidia/nemotron-3-super-120b-a12b:free";
 
 export async function askLLM(messages) {
-  const response = await openrouter.chat.send({
-    chatRequest: {
-      model: MODEL,
-      messages,
-      stream: false,
-    },
-  });
+    console.log("asking........");
 
-  const message = response.choices?.[0]?.message;
+    const response = await openrouter.chat.send({
+        chatRequest: {
+            model: MODEL,
+            messages,
+            stream: false,
+        },
+    });
 
-  return {
-    content: message?.content ?? "",
-    usage: response.usage,
-  };
+    const message = response.choices?.[0]?.message;
+
+    // console.log("AI response:", message?.content);
+
+    return {
+        content: message?.content ?? "",
+        usage: response.usage,
+    };
 }
