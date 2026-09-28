@@ -19,5 +19,8 @@
     "eslint": "^10.11.0",
     "express": "^5.2.1",
     "redis": "^6.2.1"
+  },
+  "devDependencies": {
+    "globals": "^17.12.0"
   }
 }
