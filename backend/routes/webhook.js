@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.post('/',async (req,res)=>{
         console.log("webhook triggered")
-    const action = await req.body.action;
+    const action = await req.body?.action;
     if (action !== "opened" && action !== "reopened") {
         return res.status(200).send("ignored")
     }
