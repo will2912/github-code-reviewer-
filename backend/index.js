@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
 
 app.use("/webhook", webhookRouter);
 app.use("/github-api", githubApiRouter);

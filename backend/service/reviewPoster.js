@@ -1,5 +1,8 @@
 const GITHUB_API = "https://api.github.com";
 
+const SEVERITY_RANK = { low: 1, medium: 2, high: 3 };
+const LABEL = { high: "High", medium: "Medium", low: "Low" };
+
 function headers() {
     return {
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
@@ -9,8 +12,9 @@ function headers() {
     };
 }
 
-const LABEL = { high: "High", medium: "Medium", low: "Low" };
+const sideLetter = side => (side === "LEFT" ? "L" : "R");
 
+/** The text of one inline comment. */
 export function formatComment(finding) {
     const lines = [
         `**${LABEL[finding.severity]} · ${finding.title}**`,
@@ -24,107 +28,158 @@ export function formatComment(finding) {
 
     lines.push(
         "",
-        `<sub>Confidence: ${finding.confidence} · ${finding.category}</sub>`,
+        `<sub>Confidence: ${finding.confidence}% · ${finding.category}</sub>`,
         `<!-- cr-fp:${finding.fingerprint} -->`
     );
 
     return lines.join("\n");
 }
 
+/** Medium and high go inline. Security always goes inline. The rest is summarised. */
+export function splitFindings(findings) {
+    const inline = [];
+    const minor = [];
+
+    for (const finding of findings) {
+        const important =
+            SEVERITY_RANK[finding.severity] >= SEVERITY_RANK.medium ||
+            finding.category === "security";
+
+        (important ? inline : minor).push(finding);
+    }
+
+    return { inline, minor };
+}
+
+/** The general comment, written from the findings (not by the model). */
+export function buildSummary(inline, minor) {
+    const all = [...inline, ...minor];
+    const count = severity => all.filter(f => f.severity === severity).length;
+
+    const out = [
+        "## 🤖 Code review",
+        "",
+        `Found **${all.length}** ${all.length === 1 ? "issue" : "issues"}: ` +
+        `${count("high")} high, ${count("medium")} medium, ${count("low")} low.`
+    ];
+
+    if (inline.length > 0) {
+        out.push(
+            "",
+            `${inline.length} ${inline.length === 1 ? "comment is" : "comments are"} on the code lines.`
+        );
+    }
+
+    if (minor.length > 0) {
+        out.push("", "**Minor notes** (low severity):");
+
+        for (const f of minor) {
+            const where = f.side === "LEFT" ? `old line ${f.line}` : `line ${f.line}`;
+
+            out.push(
+                `- \`${f.path}\` ${where}: ${f.title} (confidence ${f.confidence}%) ` +
+                `<!-- cr-fp:${f.fingerprint} -->`
+            );
+        }
+    }
+
+    return out.join("\n");
+}
+
+// Markers of everything this bot has already posted on the PR.
 async function getExistingFingerprints(owner, repo, prId) {
     const found = new Set();
+    const base = `${GITHUB_API}/repos/${owner}/${repo}`;
 
-    try {
-        const response = await fetch(
-            `${GITHUB_API}/repos/${owner}/${repo}/pulls/${prId}/comments?per_page=100`,
-            { headers: headers() }
-        );
+    const urls = [
+        `${base}/pulls/${prId}/comments?per_page=100`,   // inline comments
+        `${base}/pulls/${prId}/reviews?per_page=100`,    // review summaries
+        `${base}/issues/${prId}/comments?per_page=100`   // general comments
+    ];
 
-        if (!response.ok) return found;
+    await Promise.all(
+        urls.map(async url => {
+            try {
+                const response = await fetch(url, { headers: headers() });
+                if (!response.ok) return;
 
-        for (const comment of await response.json()) {
-            const match = String(comment.body ?? "").match(/cr-fp:([a-f0-9]+)/);
-            if (match) found.add(match[1]);
-        }
-    } catch {
-        // If this fails, the worst case is a duplicate comment.
-    }
+                for (const item of await response.json()) {
+                    for (const match of String(item.body ?? "").matchAll(/cr-fp:([a-f0-9]+)/g)) {
+                        found.add(match[1]);
+                    }
+                }
+            } catch {
+                // Worst case: a duplicate comment.
+            }
+        })
+    );
 
     return found;
 }
 
-export async function postReview({
-    owner,
-    repo,
-    prId,
-    headSha,
-    summary,
-    findings
-}) {
+export async function postReview({ owner, repo, prId, headSha, findings }) {
+    const base = `${GITHUB_API}/repos/${owner}/${repo}`;
+
     const existing = await getExistingFingerprints(owner, repo, prId);
     const fresh = findings.filter(f => !existing.has(f.fingerprint));
+    const duplicatesSkipped = findings.length - fresh.length;
 
     if (fresh.length === 0) {
-        return {
-            mode: "none",
-            posted: 0,
-            duplicatesSkipped: findings.length
-        };
+        return { mode: "none", posted: 0, duplicatesSkipped };
     }
 
-    const body =
-        `## 🤖 Code review\n\n${summary}\n\n` +
-        `${fresh.length} comment${fresh.length === 1 ? "" : "s"} below.`;
+    const { inline, minor } = splitFindings(fresh);
+    const body = buildSummary(inline, minor);
 
-    const response = await fetch(
-        `${GITHUB_API}/repos/${owner}/${repo}/pulls/${prId}/reviews`,
-        {
-            method: "POST",
-            headers: headers(),
-            body: JSON.stringify({
-                commit_id: headSha,
-                body,
-                event: "COMMENT",
-                comments: fresh.map(f => ({
-                    path: f.path,
-                    line: f.line,
-                    side: f.side,
-                    body: formatComment(f)
-                }))
-            })
-        }
-    );
+    const response = await fetch(`${base}/pulls/${prId}/reviews`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({
+            commit_id: headSha,
+            body,
+            event: "COMMENT",
+            comments: inline.map(f => ({
+                path: f.path,
+                line: f.line,
+                side: f.side,
+                body: formatComment(f)
+            }))
+        })
+    });
 
     if (response.ok) {
         return {
-            mode: "inline_review",
+            mode: inline.length > 0 ? "inline_review" : "summary_only",
             posted: fresh.length,
-            duplicatesSkipped: findings.length - fresh.length
+            inline: inline.length,
+            summarized: minor.length,
+            duplicatesSkipped
         };
     }
 
+    // GitHub rejected the review (for example a 422 on a line). Post one general
+    // comment instead, so the findings are not lost.
     const error = await response.text();
 
     const fallbackBody =
-        `## 🤖 Code review\n\n${summary}\n\n` +
-        fresh
-            .map(f =>
-                `**${f.path}:${f.side === "LEFT" ? "L" : "R"}${f.line}**\n${formatComment(f)}`
+        body +
+        inline
+            .map(
+                f =>
+                    `\n\n---\n\n**\`${f.path}\` ${sideLetter(f.side)}${f.line}**\n\n${formatComment(f)}`
             )
-            .join("\n\n---\n\n");
+            .join("");
 
-    const fallback = await fetch(
-        `${GITHUB_API}/repos/${owner}/${repo}/issues/${prId}/comments`,
-        {
-            method: "POST",
-            headers: headers(),
-            body: JSON.stringify({ body: fallbackBody })
-        }
-    );
+    const fallback = await fetch(`${base}/issues/${prId}/comments`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ body: fallbackBody })
+    });
 
     return {
         mode: fallback.ok ? "general_fallback" : "failed",
         posted: fallback.ok ? fresh.length : 0,
+        duplicatesSkipped,
         inlineError: error.slice(0, 500)
     };
 }

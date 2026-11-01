@@ -2,6 +2,23 @@ import crypto from "node:crypto";
 import { isCommentable } from "./contextBuilder.js";
 
 const RANK = { low: 1, medium: 2, high: 3 };
+// The model gives a number from 0 to 100. Words are still accepted.
+function parseConfidence(value) {
+    let n =
+        typeof value === "number"
+            ? value
+            : Number.parseFloat(String(value ?? "").replace("%", ""));
+
+    if (Number.isFinite(n)) {
+        if (n > 0 && n <= 1) n *= 100;
+        return Math.round(Math.min(100, Math.max(0, n)));
+    }
+
+    const words = { high: 90, medium: 65, low: 35 };
+    return words[String(value ?? "").toLowerCase()] ?? null;
+}
+
+const levelOf = percent => (percent >= 80 ? "high" : percent >= 50 ? "medium" : "low");
 const ROW_RE = /^([+\- ])([RL ])\s*(\d+) \| (.*)$/;
 const NEARBY = [0, 1, -1, 2, -2, 3, -3];
 
@@ -73,7 +90,7 @@ function calibrate(finding) {
 export function validateFindings(
     modelOutput,
     context,
-    { minConfidence = "medium", maxFindings = 10 } = {}
+    { minConfidence = 50, maxFindings = 10 } = {}
 ) {
     const files = new Map(
         context.files.map(file => [
@@ -107,8 +124,10 @@ export function validateFindings(
         if (!side || !Number.isInteger(line)) { reject("bad line or side"); continue; }
 
         if (!RANK[raw.severity]) { reject("bad severity"); continue; }
-        if (!RANK[raw.confidence]) { reject("bad confidence"); continue; }
-        if (RANK[raw.confidence] < RANK[minConfidence]) { reject("confidence too low"); continue; }
+
+        const confidence = parseConfidence(raw.confidence);
+        if (confidence === null) { reject("bad confidence"); continue; }
+        if (confidence < minConfidence) { reject("confidence too low"); continue; }
 
         const message = String(raw.message ?? "").trim();
         if (message.length < 10) { reject("message missing or too short"); continue; }
@@ -144,7 +163,8 @@ export function validateFindings(
             line: found,
             side,
             severity: raw.severity,
-            confidence: raw.confidence,
+            confidence,
+            confidenceLevel: levelOf(confidence),
             category,
             title: String(raw.title ?? "").trim().slice(0, 120) || message.slice(0, 80),
             message,
@@ -158,7 +178,7 @@ export function validateFindings(
     accepted.sort(
         (a, b) =>
             RANK[b.severity] - RANK[a.severity] ||
-            RANK[b.confidence] - RANK[a.confidence] ||
+            b.confidence - a.confidence ||
             a.line - b.line
     );
 

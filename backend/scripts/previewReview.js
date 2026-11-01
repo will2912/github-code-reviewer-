@@ -3,7 +3,7 @@ import { collectPR } from "../service/prCollector.js";
 import { buildReviewContext, isCommentable } from "../service/contextBuilder.js";
 import { analyzeChangedFiles } from "../service/staticAnalyzer.js";
 import { runReviewWithRetrieval } from "../service/retrievalLoop.js";
-import { formatComment } from "../service/reviewPoster.js";
+import { formatComment, splitFindings, buildSummary } from "../service/reviewPoster.js";
 
 const [owner, repo, prId] = process.argv.slice(2).filter(arg => !arg.startsWith("--"));
 
@@ -84,31 +84,26 @@ show("dropped after retrieval", result.changes.dropped);
 show("added after retrieval", result.changes.added);
 
 /* ---------------- Final comments ---------------- */
-console.log(`\n${line}\nFINAL COMMENTS (as they would be posted)\n${line}`);
-console.log(`\nReview summary:\n  ${result.summary}`);
+/* ---------------- What would be posted ---------------- */
+const { inline, minor } = splitFindings(result.accepted);
+const hidden = /\s?<!-- cr-fp:[a-f0-9]+ -->/g;
+const quote = text => text.split("\n").map(row => `  | ${row}`).join("\n");
 
-if (result.accepted.length === 0) {
-    console.log("\n(no comments)");
-}
+console.log(`\n${line}\nWHAT WOULD BE POSTED\n${line}`);
 
-const byFile = new Map();
-for (const f of result.accepted) {
-    if (!byFile.has(f.path)) byFile.set(f.path, []);
-    byFile.get(f.path).push(f);
-}
+console.log("\nGENERAL COMMENT (review summary):\n");
+console.log(quote(buildSummary(inline, minor).replace(hidden, "")));
 
-for (const [path, findings] of byFile) {
-    const fileContext = context.files.find(file => file.path === path);
+console.log(`\nINLINE COMMENTS: ${inline.length}`);
 
-    console.log(`\n${path}`);
+for (const f of inline) {
+    const fileContext = context.files.find(file => file.path === f.path);
+    const valid = fileContext ? isCommentable(fileContext, f.side, f.line) : false;
 
-    for (const f of findings) {
-        const valid = fileContext ? isCommentable(fileContext, f.side, f.line) : false;
-        const body = formatComment(f).replace(/\n?<!-- cr-fp:[a-f0-9]+ -->/, "");
-
-        console.log(`\n  ${f.side === "LEFT" ? "L" : "R"}${f.line}   commentable: ${valid ? "yes" : "NO"}`);
-        console.log(body.split("\n").map(row => `  | ${row}`).join("\n"));
-    }
+    console.log(
+        `\n  ${f.path}  ${f.side === "LEFT" ? "L" : "R"}${f.line}   commentable: ${valid ? "yes" : "NO"}`
+    );
+    console.log(quote(formatComment(f).replace(hidden, "")));
 }
 
 /* ---------------- Rejected ---------------- */
