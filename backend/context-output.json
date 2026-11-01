@@ -1,0 +1,1625 @@
+{
+  "pr": {
+    "title": "pr testing",
+    "description": "testing 13.0",
+    "author": "will2912",
+    "baseBranch": "main",
+    "headBranch": "test-webhook",
+    "baseSha": "5a81d5d737b28ba141e90ef1bc1cf2763edd3115",
+    "headSha": "386061e8c8473a4a70a11ffa9fc6ca9bd62c3889"
+  },
+  "codeFormat": "Each code row is: <marker><label> | <code>. Marker: '+' added line, '-' removed line, ' ' unchanged. Label: R<n> = line n of the NEW file (RIGHT side), L<n> = line n of the OLD file (LEFT side), a bare number = shown for context only, NOT commentable. Inline comments: side RIGHT + the R number for '+' and unchanged rows; side LEFT + the L number for '-' rows.",
+  "files": [
+    {
+      "path": "src/app/layout.tsx",
+      "previousPath": null,
+      "language": "typescript",
+      "status": "modified",
+      "parsedOk": true,
+      "parseWarnings": [],
+      "ignoredWhitespaceRegions": 0,
+      "trivialRegions": [],
+      "commentableLines": {
+        "left": [
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46
+        ],
+        "right": [
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ]
+      },
+      "functions": [
+        {
+          "id": "head:RootLayout:28:54",
+          "version": "head",
+          "name": "RootLayout",
+          "kind": "function",
+          "startLine": 28,
+          "endLine": 54,
+          "signature": "export default function RootLayout({"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "src/app/layout.tsx#block1",
+          "version": "head",
+          "scope": "function",
+          "symbols": [
+            "RootLayout"
+          ],
+          "startLine": 28,
+          "endLine": 54,
+          "regionIds": [
+            "src/app/layout.tsx#region-1"
+          ],
+          "includesRemovedLines": true,
+          "code": "  28 | export default function RootLayout({\n  29 |   children,\n  30 | }: Readonly<{\n  31 |   children: React.ReactNode;\n  32 | }>) {\n  33 |   return (\n  34 |     <html lang=\"en\">\n  35 |       <body \n  36 |         className={`${geistSans.variable} ${geistMono.variable} antialiased`}\n  37 |       >\n  38 |         {/* ✅ ONLY ADDITION */}\n R39 |         <Auth0Provider>\n R40 |           <SidebarProvider className=\" flex  items-center justify-center font-sans dark:bg-black\">\n R41 |             <div className=\"flex w-full font-sans dark:bg-black\">\n-L42 |               <AppSidebar />\n-L43 |               {children}\n+R42 |               <div className=\"\">\n+R43 |                 <AppSidebar />\n+R44 |               </div>\n+R45 |               <div className=\"flex-1 overflow-hidden\">\n+R46 |                 {children}\n+R47 |               </div>\n R48 |             </div>\n R49 |           </SidebarProvider>\n R50 |         </Auth0Provider>\n  51 |       </body>\n  52 |     </html>\n  53 |   );\n  54 | }"
+        }
+      ],
+      "regions": [
+        {
+          "id": "src/app/layout.tsx#region-1",
+          "hunkIndex": 1,
+          "type": "modification",
+          "startLine": 42,
+          "endLine": 47,
+          "newRange": {
+            "startLine": 42,
+            "endLine": 47
+          },
+          "removedBeforeNewLine": null,
+          "oldStartLine": 42,
+          "oldEndLine": 43,
+          "oldRange": {
+            "startLine": 42,
+            "endLine": 43
+          },
+          "insertedBeforeOldLine": null,
+          "isPureAddition": false,
+          "isPureDeletion": false,
+          "added": [
+            {
+              "line": 42,
+              "side": "RIGHT",
+              "text": "              <div className=\"\">"
+            },
+            {
+              "line": 43,
+              "side": "RIGHT",
+              "text": "                <AppSidebar />"
+            },
+            {
+              "line": 44,
+              "side": "RIGHT",
+              "text": "              </div>"
+            },
+            {
+              "line": 45,
+              "side": "RIGHT",
+              "text": "              <div className=\"flex-1 overflow-hidden\">"
+            },
+            {
+              "line": 46,
+              "side": "RIGHT",
+              "text": "                {children}"
+            },
+            {
+              "line": 47,
+              "side": "RIGHT",
+              "text": "              </div>"
+            }
+          ],
+          "removed": [
+            {
+              "line": 42,
+              "side": "LEFT",
+              "text": "              <AppSidebar />"
+            },
+            {
+              "line": 43,
+              "side": "LEFT",
+              "text": "              {children}"
+            }
+          ],
+          "addedLines": [
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ],
+          "removedLines": [
+            42,
+            43
+          ],
+          "contextBefore": [
+            {
+              "oldLine": 39,
+              "newLine": 39,
+              "content": "        <Auth0Provider>"
+            },
+            {
+              "oldLine": 40,
+              "newLine": 40,
+              "content": "          <SidebarProvider className=\" flex  items-center justify-center font-sans dark:bg-black\">"
+            },
+            {
+              "oldLine": 41,
+              "newLine": 41,
+              "content": "            <div className=\"flex w-full font-sans dark:bg-black\">"
+            }
+          ],
+          "contextAfter": [
+            {
+              "oldLine": 44,
+              "newLine": 48,
+              "content": "            </div>"
+            },
+            {
+              "oldLine": 45,
+              "newLine": 49,
+              "content": "          </SidebarProvider>"
+            },
+            {
+              "oldLine": 46,
+              "newLine": 50,
+              "content": "        </Auth0Provider>"
+            }
+          ],
+          "version": "head",
+          "scope": "function",
+          "contextStatus": "function",
+          "functionId": "head:RootLayout:28:54",
+          "blockId": "src/app/layout.tsx#block1"
+        }
+      ],
+      "hunks": [
+        {
+          "index": 1,
+          "oldStartLine": 39,
+          "oldLineCount": 8,
+          "newStartLine": 39,
+          "newLineCount": 12,
+          "regionIds": [
+            "src/app/layout.tsx#region-1"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/app/page.tsx",
+      "previousPath": null,
+      "language": "typescript",
+      "status": "modified",
+      "parsedOk": true,
+      "parseWarnings": [],
+      "ignoredWhitespaceRegions": 9,
+      "trivialRegions": [
+        {
+          "id": "src/app/page.tsx#region-1",
+          "newRange": {
+            "startLine": 3,
+            "endLine": 3
+          },
+          "oldRange": null,
+          "reason": "comments_or_blank_lines_only"
+        },
+        {
+          "id": "src/app/page.tsx#region-2",
+          "newRange": {
+            "startLine": 7,
+            "endLine": 7
+          },
+          "oldRange": null,
+          "reason": "comments_or_blank_lines_only"
+        },
+        {
+          "id": "src/app/page.tsx#region-3",
+          "newRange": {
+            "startLine": 12,
+            "endLine": 12
+          },
+          "oldRange": null,
+          "reason": "comments_or_blank_lines_only"
+        },
+        {
+          "id": "src/app/page.tsx#region-5",
+          "newRange": {
+            "startLine": 20,
+            "endLine": 20
+          },
+          "oldRange": {
+            "startLine": 16,
+            "endLine": 16
+          },
+          "reason": "whitespace_or_comment_only"
+        },
+        {
+          "id": "src/app/page.tsx#region-6",
+          "newRange": {
+            "startLine": 22,
+            "endLine": 23
+          },
+          "oldRange": {
+            "startLine": 18,
+            "endLine": 19
+          },
+          "reason": "whitespace_or_comment_only"
+        },
+        {
+          "id": "src/app/page.tsx#region-7",
+          "newRange": {
+            "startLine": 25,
+            "endLine": 25
+          },
+          "oldRange": {
+            "startLine": 21,
+            "endLine": 21
+          },
+          "reason": "whitespace_or_comment_only"
+        },
+        {
+          "id": "src/app/page.tsx#region-8",
+          "newRange": {
+            "startLine": 27,
+            "endLine": 27
+          },
+          "oldRange": {
+            "startLine": 23,
+            "endLine": 23
+          },
+          "reason": "whitespace_or_comment_only"
+        },
+        {
+          "id": "src/app/page.tsx#region-9",
+          "newRange": {
+            "startLine": 29,
+            "endLine": 29
+          },
+          "oldRange": {
+            "startLine": 25,
+            "endLine": 25
+          },
+          "reason": "whitespace_or_comment_only"
+        },
+        {
+          "id": "src/app/page.tsx#region-10",
+          "newRange": {
+            "startLine": 35,
+            "endLine": 35
+          },
+          "oldRange": {
+            "startLine": 31,
+            "endLine": 31
+          },
+          "reason": "whitespace_or_comment_only"
+        }
+      ],
+      "commentableLines": {
+        "left": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87
+        ],
+        "right": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96
+        ]
+      },
+      "functions": [
+        {
+          "id": "head:Home:16:96",
+          "version": "head",
+          "name": "Home",
+          "kind": "function",
+          "startLine": 16,
+          "endLine": 96,
+          "signature": "export default function Home() {"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "src/app/page.tsx#block1",
+          "version": "head",
+          "scope": "function_excerpt",
+          "symbols": [
+            "Home"
+          ],
+          "startLine": 16,
+          "endLine": 96,
+          "regionIds": [
+            "src/app/page.tsx#region-4",
+            "src/app/page.tsx#region-11"
+          ],
+          "includesRemovedLines": true,
+          "code": " R16 | export default function Home() {\n-L14 |   const { user, isLoading } = useUser();\n+R17 |  console.log(\"Rendering Home\",Date.now());\n+R18 |   const { user, isLoading } = useUser();//\n R19 | \n R20 |   const containerRef = useRef<HTMLDivElement | null>(null);//\n R21 | \n R22 |   const [isCommentsOpen, setIsCommentsOpen] = useState(false);//\n R23 |   const [activePostId, setActivePostId] = useState<string | null>(null);//\n R24 | \n R25 |   const { posts, setPosts, loading, fetchFeed } = useFeed(user?.sub);//Hook1\n R26 | \n R27 |   useBodyScrollLock(isCommentsOpen);//Hook2\n R28 | \n R29 |   useEffect(() => {//loading\n R30 |     if (isLoading) return;\n R31 | \n R32 |     fetchFeed();\n R33 |   }, [isLoading]);\n R34 | \n R35 |   const handleScroll = () => {//scrolling\n R36 |     const el = containerRef.current;\n R37 |     if (!el) return;\n R38 | \n  39 |     const isNearBottom =\n  40 |       el.scrollTop + el.clientHeight >= el.scrollHeight - 200;\n  41 | \n  42 |     if (isNearBottom && !loading) {\n  43 |       fetchFeed();\n  44 |     }\n  45 |   };\n  46 | \n  47 |   const openComments = (postId: string) => {\n  48 |     setActivePostId(postId);\n  49 |     setIsCommentsOpen(true);\n  50 |   };\n  51 | \n  52 |   const closeComments = () => {\n  53 |     setIsCommentsOpen(false);\n R54 |   };\n R55 | \n R56 |   return (\n-L53 |     <main className=\"relative h-screen w-full bg-[#060812] overflow-hidden flex items-center justify-center\">\n-L54 |       {/* BACKGROUND */}\n-L55 |       <div className=\"absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-blue-600/20 rounded-full blur-3xl pointer-events-none\" />\n-L56 |       <div className=\"absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-violet-600/15 rounded-full blur-3xl pointer-events-none\" />\n-L57 | \n-L58 |       {/* FEED */}\n-L59 |       <ReelFeed\n-L60 |         posts={posts}\n-L61 |         loading={loading}\n-L62 |         setPosts={setPosts}\n-L63 |         containerRef={containerRef}\n-L64 |         onScroll={handleScroll}\n-L65 |         onCommentClick={openComments}\n-L66 |       />\n-L67 | \n-L68 |       {/* OVERLAY */}\n-L69 |       {isCommentsOpen && (\n-L70 |         <div className=\"fixed inset-0 bg-black/50 z-40\" onClick={closeComments} />\n-L71 |       )}\n-L72 | \n-L73 |       {/* COMMENTS */}\n-L74 |       <CommentsPanel\n-L75 |         isOpen={isCommentsOpen}\n-L76 |         onClose={closeComments}\n-L77 |         postId={activePostId}\n-L78 |         setPosts={setPosts}\n-L79 |       />\n-L80 | \n-L81 |       {/* NAVIGATION */}\n-L82 |       <div className=\"absolute right-6 top-1/2 -translate-y-1/2 z-50\">\n-L83 |         <ReelNavigation containerRef={containerRef} />\n-L84 |       </div>\n-L85 |     </main>\n+R57 |     <main className=\" h-screen w-full bg-[#060812] overflow-hidden\">\n+R58 |         {/* BACKGROUND */}\n+R59 |         <div className=\"absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-blue-600/20 rounded-full blur-3xl pointer-events-none\" />\n+R60 |         <div className=\"absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-violet-600/15 rounded-full blur-3xl pointer-events-none\" />\n+R61 | \n+R62 | \n+R63 |         {/* PAGE CONTENT AREA */}\n+R64 |         <div className=\" h-full \">\n+R65 |           {/* FEED CENTERED ONLY HERE */}\n+R66 |           <div className=\"h-full flex justify-center \">\n+R67 |             <ReelFeed\n+R68 |               posts={posts}\n+R69 |               loading={loading}\n+R70 |               setPosts={setPosts}\n+R71 |               containerRef={containerRef}\n+R72 |               onScroll={handleScroll}\n+R73 |               onCommentClick={openComments}\n+R74 |             />\n+R75 |           </div>\n+R76 |         </div>\n+R77 | \n+R78 |         {/* OVERLAY */}\n+R79 |         {isCommentsOpen && (\n+R80 |           <div className=\"fixed inset-0 bg-black/50 z-40\" onClick={closeComments} />\n+R81 |         )}\n+R82 | \n+R83 |         {/* COMMENTS */}\n+R84 |         <CommentsPanel\n+R85 |           isOpen={isCommentsOpen}\n+R86 |           onClose={closeComments}\n+R87 |           postId={activePostId}\n+R88 |           setPosts={setPosts}\n+R89 |         />\n+R90 | \n+R91 |         <div className=\"absolute right-6 top-1/2 -translate-y-1/2 z-50\">\n+R92 |           <ReelNavigation containerRef={containerRef} />\n+R93 |         </div>\n+R94 |       </main>\n R95 |   );\n R96 | }"
+        }
+      ],
+      "regions": [
+        {
+          "id": "src/app/page.tsx#region-4",
+          "hunkIndex": 1,
+          "type": "modification",
+          "startLine": 17,
+          "endLine": 18,
+          "newRange": {
+            "startLine": 17,
+            "endLine": 18
+          },
+          "removedBeforeNewLine": null,
+          "oldStartLine": 14,
+          "oldEndLine": 14,
+          "oldRange": {
+            "startLine": 14,
+            "endLine": 14
+          },
+          "insertedBeforeOldLine": null,
+          "isPureAddition": false,
+          "isPureDeletion": false,
+          "added": [
+            {
+              "line": 17,
+              "side": "RIGHT",
+              "text": " console.log(\"Rendering Home\",Date.now());"
+            },
+            {
+              "line": 18,
+              "side": "RIGHT",
+              "text": "  const { user, isLoading } = useUser();//"
+            }
+          ],
+          "removed": [
+            {
+              "line": 14,
+              "side": "LEFT",
+              "text": "  const { user, isLoading } = useUser();"
+            }
+          ],
+          "addedLines": [
+            17,
+            18
+          ],
+          "removedLines": [
+            14
+          ],
+          "contextBefore": [
+            {
+              "oldLine": 11,
+              "newLine": 14,
+              "content": "import { useBodyScrollLock } from \"@/hooks/useBodyScrollLock\";"
+            },
+            {
+              "oldLine": 12,
+              "newLine": 15,
+              "content": ""
+            },
+            {
+              "oldLine": 13,
+              "newLine": 16,
+              "content": "export default function Home() {"
+            }
+          ],
+          "contextAfter": [
+            {
+              "oldLine": 15,
+              "newLine": 19,
+              "content": ""
+            }
+          ],
+          "version": "head",
+          "scope": "function_excerpt",
+          "contextStatus": "function_excerpt",
+          "functionId": "head:Home:16:96",
+          "blockId": "src/app/page.tsx#block1"
+        },
+        {
+          "id": "src/app/page.tsx#region-11",
+          "hunkIndex": 2,
+          "type": "modification",
+          "startLine": 57,
+          "endLine": 94,
+          "newRange": {
+            "startLine": 57,
+            "endLine": 94
+          },
+          "removedBeforeNewLine": null,
+          "oldStartLine": 53,
+          "oldEndLine": 85,
+          "oldRange": {
+            "startLine": 53,
+            "endLine": 85
+          },
+          "insertedBeforeOldLine": null,
+          "isPureAddition": false,
+          "isPureDeletion": false,
+          "added": [
+            {
+              "line": 57,
+              "side": "RIGHT",
+              "text": "    <main className=\" h-screen w-full bg-[#060812] overflow-hidden\">"
+            },
+            {
+              "line": 58,
+              "side": "RIGHT",
+              "text": "        {/* BACKGROUND */}"
+            },
+            {
+              "line": 59,
+              "side": "RIGHT",
+              "text": "        <div className=\"absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-blue-600/20 rounded-full blur-3xl pointer-events-none\" />"
+            },
+            {
+              "line": 60,
+              "side": "RIGHT",
+              "text": "        <div className=\"absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-violet-600/15 rounded-full blur-3xl pointer-events-none\" />"
+            },
+            {
+              "line": 61,
+              "side": "RIGHT",
+              "text": ""
+            },
+            {
+              "line": 62,
+              "side": "RIGHT",
+              "text": ""
+            },
+            {
+              "line": 63,
+              "side": "RIGHT",
+              "text": "        {/* PAGE CONTENT AREA */}"
+            },
+            {
+              "line": 64,
+              "side": "RIGHT",
+              "text": "        <div className=\" h-full \">"
+            },
+            {
+              "line": 65,
+              "side": "RIGHT",
+              "text": "          {/* FEED CENTERED ONLY HERE */}"
+            },
+            {
+              "line": 66,
+              "side": "RIGHT",
+              "text": "          <div className=\"h-full flex justify-center \">"
+            },
+            {
+              "line": 67,
+              "side": "RIGHT",
+              "text": "            <ReelFeed"
+            },
+            {
+              "line": 68,
+              "side": "RIGHT",
+              "text": "              posts={posts}"
+            },
+            {
+              "line": 69,
+              "side": "RIGHT",
+              "text": "              loading={loading}"
+            },
+            {
+              "line": 70,
+              "side": "RIGHT",
+              "text": "              setPosts={setPosts}"
+            },
+            {
+              "line": 71,
+              "side": "RIGHT",
+              "text": "              containerRef={containerRef}"
+            },
+            {
+              "line": 72,
+              "side": "RIGHT",
+              "text": "              onScroll={handleScroll}"
+            },
+            {
+              "line": 73,
+              "side": "RIGHT",
+              "text": "              onCommentClick={openComments}"
+            },
+            {
+              "line": 74,
+              "side": "RIGHT",
+              "text": "            />"
+            },
+            {
+              "line": 75,
+              "side": "RIGHT",
+              "text": "          </div>"
+            },
+            {
+              "line": 76,
+              "side": "RIGHT",
+              "text": "        </div>"
+            },
+            {
+              "line": 77,
+              "side": "RIGHT",
+              "text": ""
+            },
+            {
+              "line": 78,
+              "side": "RIGHT",
+              "text": "        {/* OVERLAY */}"
+            },
+            {
+              "line": 79,
+              "side": "RIGHT",
+              "text": "        {isCommentsOpen && ("
+            },
+            {
+              "line": 80,
+              "side": "RIGHT",
+              "text": "          <div className=\"fixed inset-0 bg-black/50 z-40\" onClick={closeComments} />"
+            },
+            {
+              "line": 81,
+              "side": "RIGHT",
+              "text": "        )}"
+            },
+            {
+              "line": 82,
+              "side": "RIGHT",
+              "text": ""
+            },
+            {
+              "line": 83,
+              "side": "RIGHT",
+              "text": "        {/* COMMENTS */}"
+            },
+            {
+              "line": 84,
+              "side": "RIGHT",
+              "text": "        <CommentsPanel"
+            },
+            {
+              "line": 85,
+              "side": "RIGHT",
+              "text": "          isOpen={isCommentsOpen}"
+            },
+            {
+              "line": 86,
+              "side": "RIGHT",
+              "text": "          onClose={closeComments}"
+            },
+            {
+              "line": 87,
+              "side": "RIGHT",
+              "text": "          postId={activePostId}"
+            },
+            {
+              "line": 88,
+              "side": "RIGHT",
+              "text": "          setPosts={setPosts}"
+            },
+            {
+              "line": 89,
+              "side": "RIGHT",
+              "text": "        />"
+            },
+            {
+              "line": 90,
+              "side": "RIGHT",
+              "text": ""
+            },
+            {
+              "line": 91,
+              "side": "RIGHT",
+              "text": "        <div className=\"absolute right-6 top-1/2 -translate-y-1/2 z-50\">"
+            },
+            {
+              "line": 92,
+              "side": "RIGHT",
+              "text": "          <ReelNavigation containerRef={containerRef} />"
+            },
+            {
+              "line": 93,
+              "side": "RIGHT",
+              "text": "        </div>"
+            },
+            {
+              "line": 94,
+              "side": "RIGHT",
+              "text": "      </main>"
+            }
+          ],
+          "removed": [
+            {
+              "line": 53,
+              "side": "LEFT",
+              "text": "    <main className=\"relative h-screen w-full bg-[#060812] overflow-hidden flex items-center justify-center\">"
+            },
+            {
+              "line": 54,
+              "side": "LEFT",
+              "text": "      {/* BACKGROUND */}"
+            },
+            {
+              "line": 55,
+              "side": "LEFT",
+              "text": "      <div className=\"absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-blue-600/20 rounded-full blur-3xl pointer-events-none\" />"
+            },
+            {
+              "line": 56,
+              "side": "LEFT",
+              "text": "      <div className=\"absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-violet-600/15 rounded-full blur-3xl pointer-events-none\" />"
+            },
+            {
+              "line": 57,
+              "side": "LEFT",
+              "text": ""
+            },
+            {
+              "line": 58,
+              "side": "LEFT",
+              "text": "      {/* FEED */}"
+            },
+            {
+              "line": 59,
+              "side": "LEFT",
+              "text": "      <ReelFeed"
+            },
+            {
+              "line": 60,
+              "side": "LEFT",
+              "text": "        posts={posts}"
+            },
+            {
+              "line": 61,
+              "side": "LEFT",
+              "text": "        loading={loading}"
+            },
+            {
+              "line": 62,
+              "side": "LEFT",
+              "text": "        setPosts={setPosts}"
+            },
+            {
+              "line": 63,
+              "side": "LEFT",
+              "text": "        containerRef={containerRef}"
+            },
+            {
+              "line": 64,
+              "side": "LEFT",
+              "text": "        onScroll={handleScroll}"
+            },
+            {
+              "line": 65,
+              "side": "LEFT",
+              "text": "        onCommentClick={openComments}"
+            },
+            {
+              "line": 66,
+              "side": "LEFT",
+              "text": "      />"
+            },
+            {
+              "line": 67,
+              "side": "LEFT",
+              "text": ""
+            },
+            {
+              "line": 68,
+              "side": "LEFT",
+              "text": "      {/* OVERLAY */}"
+            },
+            {
+              "line": 69,
+              "side": "LEFT",
+              "text": "      {isCommentsOpen && ("
+            },
+            {
+              "line": 70,
+              "side": "LEFT",
+              "text": "        <div className=\"fixed inset-0 bg-black/50 z-40\" onClick={closeComments} />"
+            },
+            {
+              "line": 71,
+              "side": "LEFT",
+              "text": "      )}"
+            },
+            {
+              "line": 72,
+              "side": "LEFT",
+              "text": ""
+            },
+            {
+              "line": 73,
+              "side": "LEFT",
+              "text": "      {/* COMMENTS */}"
+            },
+            {
+              "line": 74,
+              "side": "LEFT",
+              "text": "      <CommentsPanel"
+            },
+            {
+              "line": 75,
+              "side": "LEFT",
+              "text": "        isOpen={isCommentsOpen}"
+            },
+            {
+              "line": 76,
+              "side": "LEFT",
+              "text": "        onClose={closeComments}"
+            },
+            {
+              "line": 77,
+              "side": "LEFT",
+              "text": "        postId={activePostId}"
+            },
+            {
+              "line": 78,
+              "side": "LEFT",
+              "text": "        setPosts={setPosts}"
+            },
+            {
+              "line": 79,
+              "side": "LEFT",
+              "text": "      />"
+            },
+            {
+              "line": 80,
+              "side": "LEFT",
+              "text": ""
+            },
+            {
+              "line": 81,
+              "side": "LEFT",
+              "text": "      {/* NAVIGATION */}"
+            },
+            {
+              "line": 82,
+              "side": "LEFT",
+              "text": "      <div className=\"absolute right-6 top-1/2 -translate-y-1/2 z-50\">"
+            },
+            {
+              "line": 83,
+              "side": "LEFT",
+              "text": "        <ReelNavigation containerRef={containerRef} />"
+            },
+            {
+              "line": 84,
+              "side": "LEFT",
+              "text": "      </div>"
+            },
+            {
+              "line": 85,
+              "side": "LEFT",
+              "text": "    </main>"
+            }
+          ],
+          "addedLines": [
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94
+          ],
+          "removedLines": [
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85
+          ],
+          "contextBefore": [
+            {
+              "oldLine": 50,
+              "newLine": 54,
+              "content": "  };"
+            },
+            {
+              "oldLine": 51,
+              "newLine": 55,
+              "content": ""
+            },
+            {
+              "oldLine": 52,
+              "newLine": 56,
+              "content": "  return ("
+            }
+          ],
+          "contextAfter": [
+            {
+              "oldLine": 86,
+              "newLine": 95,
+              "content": "  );"
+            },
+            {
+              "oldLine": 87,
+              "newLine": 96,
+              "content": "}"
+            }
+          ],
+          "version": "head",
+          "scope": "function_excerpt",
+          "contextStatus": "function_excerpt",
+          "functionId": "head:Home:16:96",
+          "blockId": "src/app/page.tsx#block1"
+        }
+      ],
+      "hunks": [
+        {
+          "index": 1,
+          "oldStartLine": 1,
+          "oldLineCount": 34,
+          "newStartLine": 1,
+          "newLineCount": 38,
+          "regionIds": [
+            "src/app/page.tsx#region-1",
+            "src/app/page.tsx#region-2",
+            "src/app/page.tsx#region-3",
+            "src/app/page.tsx#region-4",
+            "src/app/page.tsx#region-5",
+            "src/app/page.tsx#region-6",
+            "src/app/page.tsx#region-7",
+            "src/app/page.tsx#region-8",
+            "src/app/page.tsx#region-9",
+            "src/app/page.tsx#region-10"
+          ]
+        },
+        {
+          "index": 2,
+          "oldStartLine": 50,
+          "oldLineCount": 38,
+          "newStartLine": 54,
+          "newLineCount": 43,
+          "regionIds": [
+            "src/app/page.tsx#region-11"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/proxy.ts",
+      "previousPath": null,
+      "language": "typescript",
+      "status": "modified",
+      "parsedOk": true,
+      "parseWarnings": [],
+      "ignoredWhitespaceRegions": 0,
+      "trivialRegions": [],
+      "commentableLines": {
+        "left": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "right": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "functions": [
+        {
+          "id": "head:proxy:2:5",
+          "version": "head",
+          "name": "proxy",
+          "kind": "function",
+          "startLine": 2,
+          "endLine": 5,
+          "signature": "export async function proxy(request: Request) {"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "src/proxy.ts#block1",
+          "version": "head",
+          "scope": "function",
+          "symbols": [
+            "proxy"
+          ],
+          "startLine": 2,
+          "endLine": 5,
+          "regionIds": [
+            "src/proxy.ts#region-1"
+          ],
+          "includesRemovedLines": false,
+          "code": " R2 | export async function proxy(request: Request) {\n+R3 |   console.log(\"Proxying request:\", Date.now(), request.url);\n R4 |   return await auth0.middleware(request);\n R5 | }"
+        }
+      ],
+      "regions": [
+        {
+          "id": "src/proxy.ts#region-1",
+          "hunkIndex": 1,
+          "type": "addition",
+          "startLine": 3,
+          "endLine": 3,
+          "newRange": {
+            "startLine": 3,
+            "endLine": 3
+          },
+          "removedBeforeNewLine": null,
+          "oldStartLine": null,
+          "oldEndLine": null,
+          "oldRange": null,
+          "insertedBeforeOldLine": 3,
+          "isPureAddition": true,
+          "isPureDeletion": false,
+          "added": [
+            {
+              "line": 3,
+              "side": "RIGHT",
+              "text": "  console.log(\"Proxying request:\", Date.now(), request.url);"
+            }
+          ],
+          "removed": [],
+          "addedLines": [
+            3
+          ],
+          "removedLines": [],
+          "contextBefore": [
+            {
+              "oldLine": 1,
+              "newLine": 1,
+              "content": "import { auth0 } from \"@/lib/auth0\";"
+            },
+            {
+              "oldLine": 2,
+              "newLine": 2,
+              "content": "export async function proxy(request: Request) {"
+            }
+          ],
+          "contextAfter": [
+            {
+              "oldLine": 3,
+              "newLine": 4,
+              "content": "  return await auth0.middleware(request);"
+            },
+            {
+              "oldLine": 4,
+              "newLine": 5,
+              "content": "}"
+            },
+            {
+              "oldLine": 5,
+              "newLine": 6,
+              "content": ""
+            }
+          ],
+          "version": "head",
+          "scope": "function",
+          "contextStatus": "function",
+          "functionId": "head:proxy:2:5",
+          "blockId": "src/proxy.ts#block1"
+        }
+      ],
+      "hunks": [
+        {
+          "index": 1,
+          "oldStartLine": 1,
+          "oldLineCount": 5,
+          "newStartLine": 1,
+          "newLineCount": 6,
+          "regionIds": [
+            "src/proxy.ts#region-1"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/services/feed.service.ts",
+      "previousPath": null,
+      "language": "typescript",
+      "status": "modified",
+      "parsedOk": true,
+      "parseWarnings": [],
+      "ignoredWhitespaceRegions": 1,
+      "trivialRegions": [
+        {
+          "id": "src/services/feed.service.ts#region-3",
+          "newRange": {
+            "startLine": 23,
+            "endLine": 23
+          },
+          "oldRange": null,
+          "reason": "comments_or_blank_lines_only"
+        }
+      ],
+      "commentableLines": {
+        "left": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ],
+        "right": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ]
+      },
+      "functions": [
+        {
+          "id": "head:getFeed:5:72",
+          "version": "head",
+          "name": "getFeed",
+          "kind": "function",
+          "startLine": 5,
+          "endLine": 72,
+          "signature": "export async function getFeed(userId?: string, cursor?: string) {"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "src/services/feed.service.ts#block1",
+          "version": "head",
+          "scope": "mixed",
+          "symbols": [
+            "getFeed"
+          ],
+          "startLine": 1,
+          "endLine": 72,
+          "regionIds": [
+            "src/services/feed.service.ts#region-1",
+            "src/services/feed.service.ts#region-2"
+          ],
+          "includesRemovedLines": true,
+          "code": " R 1 | import { supabase } from \"@/lib/supabase\";\n R 2 | \n-L 3 | const LIMIT = 10;\n+R 3 | \n R 4 | \n R 5 | export async function getFeed(userId?: string, cursor?: string) {\n R 6 |   let query = supabase\n   7 |     .from(\"posts\")\n   8 |     .select(`\n   9 |       *,\n R10 |       likes:likes(count)\n R11 |     `)\n R12 |     .order(\"created_at\", { ascending: false })\n-L13 |     .limit(LIMIT);\n+R13 |     .limit(10);\n R14 | \n R15 |   if (cursor) {\n R16 |     query = query.lt(\"created_at\", cursor);\n  17 |   }\n  18 | \n  19 |   const { data: posts, error } = await query;\n R20 | \n R21 |   if (error) throw error;\n R22 | \n R23 | \n R24 |   if (!posts || posts.length === 0) {\n R25 |     return { posts: [], nextCursor: null };\n R26 |   }\n  27 | \n  28 |   const postIds = posts.map((p) => p.id);\n  29 | \n  30 |   // ✅ get Auth0 IDs from posts.user_id\n  31 |   const auth0Ids = [...new Set(posts.map((p) => p.user_id))];\n  32 | \n  33 |   // ✅ manually fetch users by auth0_id\n  34 |   const { data: users, error: usersError } = await supabase\n  35 |     .from(\"users\")\n  36 |     .select(\"auth0_id, username, avatar_url\")\n  37 |     .in(\"auth0_id\", auth0Ids);\n  38 | \n  39 |   if (usersError) throw usersError;\n  40 | \n  41 |   const usersMap = new Map(\n  42 |     users?.map((user) => [user.auth0_id, user]) || []\n  43 |   );\n  44 | \n  45 |   let likedPostIds = new Set<string>();\n  46 | \n  47 |   // ✅ only fetch likes if logged in\n  48 |   if (userId) {\n  49 |     const { data: likes } = await supabase\n  50 |       .from(\"likes\")\n  51 |       .select(\"post_id\")\n  52 |       .eq(\"user_id\", userId)\n  53 |       .in(\"post_id\", postIds);\n  54 | \n  55 |     likedPostIds = new Set(likes?.map((l) => String(l.post_id)));\n  56 |   }\n  57 | \n  58 |   const postsWithMeta = posts.map((post) => ({\n  59 |     ...post,\n  60 | \n  61 |     // ✅ this makes post.users available in ReelItem\n  62 |     users: usersMap.get(post.user_id) || null,\n  63 | \n  64 |     isLiked: likedPostIds.has(String(post.id)),\n  65 |     likes_count: post.likes?.[0]?.count || 0,\n  66 |   }));\n  67 | \n  68 |   return {\n  69 |     posts: postsWithMeta,\n  70 |     nextCursor: posts.length ? posts[posts.length - 1].created_at : null,\n  71 |   };\n  72 | }"
+        }
+      ],
+      "regions": [
+        {
+          "id": "src/services/feed.service.ts#region-1",
+          "hunkIndex": 1,
+          "type": "modification",
+          "startLine": 3,
+          "endLine": 3,
+          "newRange": {
+            "startLine": 3,
+            "endLine": 3
+          },
+          "removedBeforeNewLine": null,
+          "oldStartLine": 3,
+          "oldEndLine": 3,
+          "oldRange": {
+            "startLine": 3,
+            "endLine": 3
+          },
+          "insertedBeforeOldLine": null,
+          "isPureAddition": false,
+          "isPureDeletion": false,
+          "added": [
+            {
+              "line": 3,
+              "side": "RIGHT",
+              "text": ""
+            }
+          ],
+          "removed": [
+            {
+              "line": 3,
+              "side": "LEFT",
+              "text": "const LIMIT = 10;"
+            }
+          ],
+          "addedLines": [
+            3
+          ],
+          "removedLines": [
+            3
+          ],
+          "contextBefore": [
+            {
+              "oldLine": 1,
+              "newLine": 1,
+              "content": "import { supabase } from \"@/lib/supabase\";"
+            },
+            {
+              "oldLine": 2,
+              "newLine": 2,
+              "content": ""
+            }
+          ],
+          "contextAfter": [
+            {
+              "oldLine": 4,
+              "newLine": 4,
+              "content": ""
+            },
+            {
+              "oldLine": 5,
+              "newLine": 5,
+              "content": "export async function getFeed(userId?: string, cursor?: string) {"
+            },
+            {
+              "oldLine": 6,
+              "newLine": 6,
+              "content": "  let query = supabase"
+            }
+          ],
+          "version": "head",
+          "scope": "top_level_window",
+          "contextStatus": "top_level_window",
+          "functionId": null,
+          "blockId": "src/services/feed.service.ts#block1"
+        },
+        {
+          "id": "src/services/feed.service.ts#region-2",
+          "hunkIndex": 2,
+          "type": "modification",
+          "startLine": 13,
+          "endLine": 13,
+          "newRange": {
+            "startLine": 13,
+            "endLine": 13
+          },
+          "removedBeforeNewLine": null,
+          "oldStartLine": 13,
+          "oldEndLine": 13,
+          "oldRange": {
+            "startLine": 13,
+            "endLine": 13
+          },
+          "insertedBeforeOldLine": null,
+          "isPureAddition": false,
+          "isPureDeletion": false,
+          "added": [
+            {
+              "line": 13,
+              "side": "RIGHT",
+              "text": "    .limit(10);"
+            }
+          ],
+          "removed": [
+            {
+              "line": 13,
+              "side": "LEFT",
+              "text": "    .limit(LIMIT);"
+            }
+          ],
+          "addedLines": [
+            13
+          ],
+          "removedLines": [
+            13
+          ],
+          "contextBefore": [
+            {
+              "oldLine": 10,
+              "newLine": 10,
+              "content": "      likes:likes(count)"
+            },
+            {
+              "oldLine": 11,
+              "newLine": 11,
+              "content": "    `)"
+            },
+            {
+              "oldLine": 12,
+              "newLine": 12,
+              "content": "    .order(\"created_at\", { ascending: false })"
+            }
+          ],
+          "contextAfter": [
+            {
+              "oldLine": 14,
+              "newLine": 14,
+              "content": ""
+            },
+            {
+              "oldLine": 15,
+              "newLine": 15,
+              "content": "  if (cursor) {"
+            },
+            {
+              "oldLine": 16,
+              "newLine": 16,
+              "content": "    query = query.lt(\"created_at\", cursor);"
+            }
+          ],
+          "version": "head",
+          "scope": "function",
+          "contextStatus": "function",
+          "functionId": "head:getFeed:5:72",
+          "blockId": "src/services/feed.service.ts#block1"
+        }
+      ],
+      "hunks": [
+        {
+          "index": 1,
+          "oldStartLine": 1,
+          "oldLineCount": 6,
+          "newStartLine": 1,
+          "newLineCount": 6,
+          "regionIds": [
+            "src/services/feed.service.ts#region-1"
+          ]
+        },
+        {
+          "index": 2,
+          "oldStartLine": 10,
+          "oldLineCount": 7,
+          "newStartLine": 10,
+          "newLineCount": 7,
+          "regionIds": [
+            "src/services/feed.service.ts#region-2"
+          ]
+        },
+        {
+          "index": 3,
+          "oldStartLine": 20,
+          "oldLineCount": 6,
+          "newStartLine": 20,
+          "newLineCount": 7,
+          "regionIds": [
+            "src/services/feed.service.ts#region-3"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/services/testing.ts",
+      "previousPath": null,
+      "language": "typescript",
+      "status": "added",
+      "parsedOk": true,
+      "parseWarnings": [],
+      "ignoredWhitespaceRegions": 0,
+      "trivialRegions": [],
+      "commentableLines": {
+        "left": [],
+        "right": [
+          1
+        ]
+      },
+      "functions": [],
+      "blocks": [
+        {
+          "id": "src/services/testing.ts#block1",
+          "version": "head",
+          "scope": "top_level_window",
+          "symbols": [],
+          "startLine": 1,
+          "endLine": 1,
+          "regionIds": [
+            "src/services/testing.ts#region-1"
+          ],
+          "includesRemovedLines": false,
+          "code": "+R1 | console.log(\"apple\")"
+        }
+      ],
+      "regions": [
+        {
+          "id": "src/services/testing.ts#region-1",
+          "hunkIndex": 1,
+          "type": "addition",
+          "startLine": 1,
+          "endLine": 1,
+          "newRange": {
+            "startLine": 1,
+            "endLine": 1
+          },
+          "removedBeforeNewLine": null,
+          "oldStartLine": null,
+          "oldEndLine": null,
+          "oldRange": null,
+          "insertedBeforeOldLine": null,
+          "isPureAddition": true,
+          "isPureDeletion": false,
+          "added": [
+            {
+              "line": 1,
+              "side": "RIGHT",
+              "text": "console.log(\"apple\")"
+            }
+          ],
+          "removed": [],
+          "addedLines": [
+            1
+          ],
+          "removedLines": [],
+          "contextBefore": [],
+          "contextAfter": [],
+          "version": "head",
+          "scope": "top_level_window",
+          "contextStatus": "top_level_window",
+          "functionId": null,
+          "blockId": "src/services/testing.ts#block1"
+        }
+      ],
+      "hunks": [
+        {
+          "index": 1,
+          "oldStartLine": 0,
+          "oldLineCount": 0,
+          "newStartLine": 1,
+          "newLineCount": 1,
+          "regionIds": [
+            "src/services/testing.ts#region-1"
+          ]
+        }
+      ]
+    }
+  ],
+  "skipped": [
+    {
+      "path": "src/components/CommentsPanel.tsx",
+      "reason": "no reviewable changes (only whitespace, formatting or comment edits)"
+    },
+    {
+      "path": "src/components/MusicPickerPanel.tsx",
+      "reason": "no reviewable changes (only whitespace, formatting or comment edits)"
+    },
+    {
+      "path": "src/components/sidebar.tsx",
+      "reason": "no reviewable changes (only whitespace, formatting or comment edits)"
+    },
+    {
+      "path": "src/hooks/usefeed.ts",
+      "reason": "no reviewable changes (only whitespace, formatting or comment edits)"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "reason": "no reviewable changes (only whitespace, formatting or comment edits)"
+    }
+  ]
+}

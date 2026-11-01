@@ -7,7 +7,7 @@ const openrouter = new OpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY,
 });
 
-const MODEL = "nvidia/nemotron-3-super-120b-a12b:free";
+const MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free";
 
 export async function askLLM(messages) {
     console.log("asking........");
