@@ -5,6 +5,7 @@ import { selectAnalyzer } from "../service/analyzerSelector.js";
 import { runStaticAnalyzer } from "../service/staticAnalyzer.js";
 import { normalizeFindings } from "../service/findingNormalizer.js";
 import { generateReview } from "../service/reviewGenerator.js";
+import { countIssues, saveReviewRun } from "../service/reviewStore.js";
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ router.post("/", async (req, res) => {
             return res.status(response.status).json(changedFiles);
         }
 
-        const filesWithContent = [];
+        const files = [];
         const reviewPromises = [];
 
         for (const file of changedFiles) {
@@ -79,10 +80,19 @@ router.post("/", async (req, res) => {
                 diff: file.patch || ""
             };
 
-            filesWithContent.push(currentFile);
-
             const language = detectLanguage(file.filename);
             const analyzer = selectAnalyzer(language);
+
+            const fileRecord = {
+                filename: file.filename,
+                language,
+                analyzerRan: false,
+                findingCount: 0,
+                reviews: [],
+                usage: null
+            };
+
+            files.push(fileRecord);
 
             if (analyzer === "eslint") {
 
@@ -93,6 +103,9 @@ router.post("/", async (req, res) => {
                     findings.messages
                 );
 
+                fileRecord.analyzerRan = true;
+                fileRecord.findingCount = normalizedFindings.length;
+
                 if (normalizedFindings.length > 0) {
 
                     reviewPromises.push(
@@ -102,27 +115,29 @@ router.post("/", async (req, res) => {
                             diff: currentFile.diff
                         }).then((result) => {
 
-                            const reviews = result.review.issues.map(
+                            fileRecord.reviews = result.review.issues.map(
                                 (issue, index) => ({
                                     ...normalizedFindings[index],
                                     ...issue
                                 })
                             );
-
-                            return {
-                                filename: currentFile.filename,
-                                reviews,
-                                usage: result.usage
-                            };
+                            fileRecord.usage = result.usage ?? null;
+                        }).catch((reviewError) => {
+                            console.error(
+                                `Review failed for ${file.filename}`,
+                                reviewError
+                            );
                         })
                     );
                 }
             }
         }
 
-        const reviewResults = await Promise.all(reviewPromises);
+        await Promise.all(reviewPromises);
 
-        for (const fileReview of reviewResults) {
+        let githubCommentPosted = false;
+
+        for (const fileReview of files) {
 
             const issues = fileReview.reviews.filter(
                 review => review.isIssue
@@ -148,7 +163,7 @@ router.post("/", async (req, res) => {
                 commentBody += `---\n\n`;
             }
 
-            await fetch("http://localhost:3009/github-comment", {
+            const commentResponse = await fetch("http://localhost:3009/github-comment", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -160,12 +175,45 @@ router.post("/", async (req, res) => {
                     reviewBody: commentBody
                 })
             });
+
+            if (commentResponse.ok) {
+                githubCommentPosted = true;
+            }
+        }
+
+        const issueCounts = countIssues(files);
+        let storedRun;
+
+        try {
+            storedRun = await saveReviewRun({
+                username,
+                repoName,
+                prId,
+                commitSha,
+                status: "completed",
+                githubCommentPosted,
+                files,
+                issueCounts
+            });
+        } catch (storeError) {
+            console.error("Failed to persist review run:", storeError);
+            storedRun = {
+                username,
+                repoName,
+                prId,
+                commitSha,
+                createdAt: new Date().toISOString(),
+                status: "completed",
+                githubCommentPosted,
+                files,
+                issueCounts
+            };
         }
 
         console.log("ALL REVIEWS:");
-        console.dir(reviewResults, { depth: null });
+        console.dir(files, { depth: null });
 
-        return res.json(filesWithContent);
+        return res.json(storedRun);
 
     } catch (error) {
         console.error(error);
