@@ -46,6 +46,7 @@ Rules:
 - Do not include markdown.
 - Do not include code fences.
 - Return only the JSON object.
+- Do not include emojis or images.
 `;
 
     const response = await askLLM([
